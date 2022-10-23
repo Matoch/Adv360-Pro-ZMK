@@ -4,6 +4,12 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/backlight.h>
 
+#define DEFAULT 0
+#define LOWER 1
+#define UPPER 2
+#define ADJUST 3
+#define KEYPAD 4
+#
 / {
     behaviors {
       #include "macros.dtsi"
@@ -23,39 +29,160 @@
     compatible = "zmk,keymap";
 
     default_layer {
+                          // DEFAULT
+                          // -----------------------------------------------------------------------           ---------------------------------------------------------------------
+                          // |   +/=    |    1    |    2    |    3    |    4    |    5    |  None  |           | None |    6    |    7    |    8    |    9    |    0     |  -/_     |
+                          // |   TAB    |    Q    |    W    |    E    |    R    |    T    |  None  |           | None |    Y    |    U    |    I    |    O    |    P     |  :/\     |
+                          // |  LCTRL   |    A    |    S    |    D    |    F    |    G    |  None  |           | None |    H    |    J    |    K    |    L    |    ;     |  '/"     |
+                          // |  LSHIFT  |    Z    |    X    |    C    |    V    |    B    |---------           -------|    N    |    M    |    ,    |    .    |    /     |  RSHIFT  |
+                          // |   ESC    |    ~    |   :/\   |   LA    |   RA    |----------                           ----------|    UA   |   DA    |    [    |    ]     |          |
+                          // ----------------------------------------------------                                                ----------------------------------------------------
+                          //
+                          //                                                                        Thumb Cluster
+                          //                                                       -----------------           ------------------
+                          //                                                       | LOWER | LALT  |           | LGUI  |  UPPER |
+                          //                                               -------------------------           ---------------------------
+                          //                                               |       |       | HOME  |           | PG UP |        |        |
+                          //                                               | LGUI  | SPACE |--------           --------|  ENTER |  BSPC  |
+                          //                                               |       |       | END   |           | PG DN |        |        |
+                          //                                               -------------------------           ---------------------------
       bindings = <
-        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog 1                                                                       &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
+        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &none                                                                        &none &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
         &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                                        &none &kp Y  &kp U  &kp I     &kp O    &kp P    &kp BSLH
-        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp LCTRL &kp LALT             &kp LGUI  &kp RCTRL           &none &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
+        &kp LCTRL &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp LOWER &kp LALT             &kp RCTRL &kp UPPER           &none &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
         &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B         &none    &none     &kp HOME &none &none &kp PG_UP &none     &none           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 2     &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END              &kp PG_DN &kp ENTER &kp SPACE              &kp UP &kp DOWN  &kp LBKT &kp RBKT &mo 2
+        &kd ESC   &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp LGUI &kp SPACE &kp END              &kp PG_DN &kp ENTER &kp BSPC               &kp UP &kp DOWN  &kp LBKT &kp RBKT &none
       >;
     };
-    keypad {
+    lower_layer {
+                          // LOWER
+                          // -----------------------------------------------------------------------           -------------------------------------------------------------------------
+                          // |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+                          // |          |   "|"   |  DLLR   |    <    |    /    |    -    |        |           |         |    _    |    \    |    >    |    ^    |    ~     |          |
+                          // |          |    +    |  "["    |   "{"   |   "("   |    &    |        |           |         |    =    |   ")"   |   "}"   |   "]"   |    *     |          |
+                          // |          |         |         |         |         |         |---------           ----------|         |         |         |         |          |          |
+                          // |          |         |         |         |         |----------                              ----------|         |         |         |          |          |
+                          // ----------------------------------------------------                                                   ----------------------------------------------------
+                          //
+                          //                                                                        Thumb Cluster
+                          //                                                       -----------------           ------------------
+                          //                                                       |       |       |           |       | ADJUST |
+                          //                                               -------------------------           ---------------------------
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               |       |       |--------           --------|        |        |
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               -------------------------           ---------------------------
       bindings = <
-        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &trans                                                                       &mo 3 &kp N6 &kp KP_NUM &kp KP_EQUAL &kp KP_DIVIDE &kp KP_MULTIPLY &kp MINUS
-        &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                                        &none &kp Y  &kp KP_N7  &kp KP_N8    &kp KP_N9     &kp KP_MINUS    &kp BSLH
-        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp LCTRL &kp LALT             &kp LGUI  &kp RCTRL           &none &kp H  &kp KP_N4  &kp KP_N5    &kp KP_N6     &kp KP_PLUS     &kp SQT
-        &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B         &none    &none     &kp HOME &none &none &kp PG_UP &none     &none           &kp N  &kp KP_N1  &kp KP_N2    &kp KP_N3     &kp KP_ENTER    &kp RSHFT
-        &mo 2     &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END              &kp PG_DN &kp ENTER &kp KP_N0              &kp UP     &kp DOWN     &kp KP_DOT    &kp RBKT        &mo 2
+        &trans    &trans    &trans   &trans   &trans     &trans    &none                                                                       &none  &trans    &trans    &trans       &trans       &trans      &trans
+        &trans    &kp PIPE  &kp DLLR &kp LT   &kp SLASH  &kp MINUS &trans                                                                      &trans &kp UNDER &kp BSLH  &kp GT       &kp CARET    &kp TILDE   &trans
+        &trans    &kp PLUS  &kp LBKT &kp LBRC &kp LPAR   &kp AMPS  &none        &trans    &trans               &trans    &ADJUST               &none  &EQUAL    &kp RPAR  &kp RBRC     &kp RBKT     &kp ASTRK   &trans
+        &trans    &trans    &trans   &trans   &trans     &trans        &none    &none     &trans   &none &none &trans    &none  &none          &trans &trans    &trans    &trans       &trans       &trans      &trans
+        &trans    &trans    &trans   &trans   &trans                   &trans   &trans    &trans               &trans    &trans &trans                          &trans    &trans       &trans       &trans      &trans
       >;
     };
-    fn {
+    upper_layer {
+                          // UPPER
+                          // -----------------------------------------------------------------------           -------------------------------------------------------------------------
+                          // |    ~     |   F1    |    F2   |   F3    |   F4    |   F5    |        |           |         |   F6    |   F7    |   F8    |   F9    |   F10    |          |
+                          // |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+                          // |          |         |         |         |         |         |        |           |         |  Left   |   Down  |   Up    |  Right  |          |          |
+                          // |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+                          // |          |         |         |         |         |         |---------           ----------|         |         |         |         |          |          |
+                          // |          |         |         |         |         |----------                              ----------|         |         |         |          |          |
+                          // ----------------------------------------------------                                                   ----------------------------------------------------
+                          //
+                          //                                                                        Thumb Cluster
+                          //                                                       -----------------           ------------------
+                          //                                                       | ADJUST|       |           |       |        |
+                          //                                               -------------------------           ---------------------------
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               |       |       |--------           --------|        |        |
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               -------------------------           ---------------------------
       bindings = <
-        &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog 1                                                       &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
-        &trans &trans &trans &trans &trans &trans  &none                                                       &none &trans &trans &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans &trans  &none        &trans &trans             &trans &trans        &none &trans &trans &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans &trans        &none  &none  &trans &none &none &trans &none  &none        &trans &trans &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans               &trans &trans &trans             &trans &trans &trans              &trans &trans &trans  &trans  &trans
+        &kp GRAVE &kp F1    &kp F2   &kp F3   &kp F4     &kp F5  &none                                                                       &none &kp F6 &kp F7     &kp F8       &kp F9       &kp F10         &trans
+        &trans    &trans    &trans   &trans   &trans     &trans  &none                                                                       &none &trans &trans     &trans       &trans       &trans          &trans
+        &trans    &trans    &trans   &trans   &trans     &trans  &none          &ADJUST   &trans               &trans    &trans              &none &trans &trans     &trans       &trans       &trans          &trans
+        &trans    &trans    &trans   &trans   &trans     &trans        &none    &none     &trans   &none &none &trans    &none  &none              &trans &trans     &trans       &trans       &trans          &trans
+        &trans    &trans    &trans   &trans   &trans                   &trans   &trans    &trans               &trans    &trans &trans                    &trans     &trans       &trans       &trans          &trans
       >;
     };
-    mod {
+    adjust_layer {
+                          // ADJUST
+                          // -----------------------------------------------------------------------           -------------------------------------------------------------------------
+                          // |          |  BT0    |   BT1   |   BT2   |   BT3   |   BT4   |        |           |         |         |         |         | BT Clr  |  reset   | firmware |
+                          // |          |         |         |         |         |         |        |           |         | VOL_DN  |  VOL_UP |  Pause  | Prv TRK | Nxt TRK  |          |
+                          // |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+                          // |          |         |         |         |         |         |---------           ----------|         |         |         |         |          |          |
+                          // |          |         |         |         |         |----------                              ----------|         |         |         |          |          |
+                          // ----------------------------------------------------                                                   ----------------------------------------------------
+                          //
+                          //                                                                        Thumb Cluster
+                          //                                                       -----------------           ------------------
+                          //                                                       |       |       |           |       |        |
+                          //                                               -------------------------           ---------------------------
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               |       |       |--------           --------|        |        |
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               -------------------------           ---------------------------
       bindings = <
-        &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                                                                                                          &trans                 &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none
-        &none &none        &none        &none        &none        &none        &bootloader                                                                                                    &bootloader            &none        &none        &none        &none        &none        &none
-        &none &none        &none        &none        &none        &none        &rgb_ug RGB_MEFS_CMD 5                 &bt BT_CLR &bt BT_CLR             &bt BT_CLR &bt BT_CLR                 &rgb_ug RGB_MEFS_CMD 5 &none        &none        &none        &none        &none        &none
-        &none &none        &none        &none        &none        &none                               &none           &none      &none      &none &none &none      &none      &none                                  &none        &none        &none        &none        &none        &none
-        &none &none        &none        &bl BL_INC   &bl BL_DEC                                       &rgb_ug RGB_TOG &bl BL_TOG &none                  &none      &bl BL_TOG &rgb_ug RGB_TOG                                     &bl BL_INC   &bl BL_DEC   &none        &none        &none
+        &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                                                                                      &trans    &trans       &trans       &bt BT_SEL 2 &bt BT_CLR   &none        &none
+        &none &none        &none        &none        &none        &none        &none                                                                                      &none     &kp C_VOL_DN &kp C_VOL_UP &kp C_PP     &kp C_PREV   &kp C_NEXT   &none
+        &none &none        &none        &none        &none        &none        &rgb_ug RGB_MEFS_CMD 5   &trans     &trans                 &trans     &trans               &none     &none        &none        &none        &none        &none        &none
+        &none &none        &none        &none        &none        &none                      &none      &none      &none    &none  &none  &none      &none      &none               &none        &none        &none        &none        &none        &none
+        &none &none        &none        &none        &none                                   &trans     &trans     &none                  &none      &trans     &trans                           &none        &none        &none        &none        &none
+      >;
+    };
+    KEYPAD {
+                          // KEYPAD
+                          // -----------------------------------------------------------------------           -------------------------------------------------------------------------
+                          // |          |         |         |         |         |         |        |           |         |         |   NUM    |   =     |    /     |    *     |        |
+                          // |          |         |         |         |         |         |        |           |         |         |    7     |   8     |    9     |    -     |        |
+                          // |          |         |         |         |         |         |        |           |         |         |    4     |   5     |    6     |    +     |        |
+                          // |          |         |         |         |         |         |---------           ----------|         |    1     |   2     |    3     |   ENT    |        |
+                          // |          |         |         |         |         |----------                              ----------|    UP    |  DOWN   |    .     |          |        |
+                          // ----------------------------------------------------                                                   ----------------------------------------------------
+                          //
+                          //                                                                        Thumb Cluster
+                          //                                                       -----------------           ------------------
+                          //                                                       |       |       |           |       | ADJUST |
+                          //                                               -------------------------           ---------------------------
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               |       |       |--------           --------|        |        |
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               -------------------------           ---------------------------
+      bindings = <
+        &trans    &trans    &trans   &trans   &trans     &trans &trans                                                                       &trans &trans &kp KP_NUM &kp KP_EQUAL &kp KP_DIVIDE &kp KP_MULTIPLY &to DEFAULT
+        &trans    &trans    &trans   &trans   &trans     &trans &trans                                                                       &trans &trans &kp KP_N7  &kp KP_N8    &kp KP_N9     &kp KP_MINUS    &trans
+        &trans    &trans    &trans   &trans   &trans     &trans &trans          &trans    &trans               &trans    &kp ADJUST          &trans &trans &kp KP_N4  &kp KP_N5    &kp KP_N6     &kp KP_PLUS     &trans
+        &trans    &trans    &trans   &trans   &trans     &trans        &trans   &trans    &trans   &none &none &trans    &trans    &trans           &trans &kp KP_N1  &kp KP_N2    &kp KP_N3     &kp KP_ENTER    &trans
+        &trans    &trans    &trans   &trans   &trans                   &trans   &trans    &trans               &trans    &trans    &trans                  &kp UP     &kp DOWN     &kp KP_DOT    &kp RBKT        &trans
+      >;
+    };
+    blank_layer {
+                          // BLANK
+                          // -----------------------------------------------------------------------           -------------------------------------------------------------------------
+                          // |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+                          // |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+                          // |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+                          // |          |         |         |         |         |         |---------           ----------|         |         |         |         |          |          |
+                          // |          |         |         |         |         |----------                              ----------|         |         |         |          |          |
+                          // ----------------------------------------------------                                                   ----------------------------------------------------
+                          //
+                          //                                                                        Thumb Cluster
+                          //                                                       -----------------           ------------------
+                          //                                                       |       |       |           |       |        |
+                          //                                               -------------------------           ---------------------------
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               |       |       |--------           --------|        |        |
+                          //                                               |       |       |       |           |       |        |        |
+                          //                                               -------------------------           ---------------------------
+      bindings = <
+        &trans    &trans    &trans   &trans   &trans     &trans &trans                                                                       &trans &trans &trans     &trans     &trans     &trans     &trans
+        &trans    &trans    &trans   &trans   &trans     &trans &trans                                                                       &trans &trans &trans     &trans     &trans     &trans     &trans
+        &trans    &trans    &trans   &trans   &trans     &trans &trans          &trans    &trans               &trans    &trans              &trans &trans &trans     &trans     &trans     &trans     &trans
+        &trans    &trans    &trans   &trans   &trans     &trans        &trans   &trans    &trans   &none &none &trans    &trans    &trans           &trans &trans     &trans     &trans     &trans     &trans
+        &trans    &trans    &trans   &trans   &trans                   &trans   &trans    &trans               &trans    &trans    &trans                  &trans     &trans     &trans     &trans     &trans
       >;
     };
   };
