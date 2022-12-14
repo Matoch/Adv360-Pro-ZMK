@@ -11,6 +11,7 @@
 #define KEYPAD 4
 #define GAMES 5
 #define GAMESUP 6
+#define GAMESLOWER7 
 #
 / {
     behaviors {
@@ -225,6 +226,35 @@
 //                                               -------------------------           ---------------------------
       bindings = <
         &trans    &trans    &trans   &trans   &trans     &trans &tog GAMES           &trans    &trans   &trans     &trans     &trans     &trans     &trans
+        &trans    &trans    &trans   &trans   &trans     &trans &trans               &trans    &trans   &trans     &trans     &trans     &trans     &trans
+        &trans    &trans    &trans   &trans   &trans     &trans &trans               &trans    &trans   &trans     &trans     &trans     &trans     &trans
+        &trans    &trans    &trans   &trans   &trans     &trans                                &trans   &trans     &trans     &trans     &trans     &trans
+        &trans    &trans    &trans   &trans   &trans                                                    &trans     &trans     &trans     &trans     &trans
+                                                                &trans               &trans
+                                                         &mo GAMESLOWER &trans               &trans    &trans
+                                                &trans   &trans &trans               &trans    &trans   &trans
+      >;
+    };
+    games_lower {
+// GAMESLOWER
+// -----------------------------------------------------------------------           -------------------------------------------------------------------------
+// |          |    6    |    7    |    8    |    9    |    0    |        |           |         |         |         |         |         |          |          |
+// |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+// |          |         |         |         |         |         |        |           |         |         |         |         |         |          |          |
+// |          |         |         |         |         |         |---------           ----------|         |         |         |         |          |          |
+// |          |         |         |         |         |----------                              ----------|         |         |         |          |          |
+// ----------------------------------------------------                                                   ----------------------------------------------------
+//
+//                                                                        Thumb Cluster
+//                                                       -----------------           ------------------
+//                                                       |       |       |           |       |        |
+//                                               -------------------------           ---------------------------
+//                                               |       |       |       |           |       |        |        |
+//                                               |       |       |--------           --------|        |        |
+//                                               |       |       |       |           |       |        |        |
+//                                               -------------------------           ---------------------------
+      bindings = <
+        &trans    &kp N6    &kp N7   &kp N8   &kp N9     &kp N0 &trans               &trans    &trans   &trans     &trans     &trans     &trans     &trans
         &trans    &trans    &trans   &trans   &trans     &trans &trans               &trans    &trans   &trans     &trans     &trans     &trans     &trans
         &trans    &trans    &trans   &trans   &trans     &trans &trans               &trans    &trans   &trans     &trans     &trans     &trans     &trans
         &trans    &trans    &trans   &trans   &trans     &trans                                &trans   &trans     &trans     &trans     &trans     &trans
