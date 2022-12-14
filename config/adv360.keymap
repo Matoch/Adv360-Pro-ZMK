@@ -11,7 +11,7 @@
 #define KEYPAD 4
 #define GAMES 5
 #define GAMESUP 6
-#define GAMESLOWER7 
+#define GAMESLOWER 7
 #
 / {
     behaviors {
